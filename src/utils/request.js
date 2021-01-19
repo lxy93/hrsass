@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const service = axios.create();创建axios实例
+const service = axios.create();//创建axios实例
 
 service.interceptors.request.use(); //请求拦截器
 
