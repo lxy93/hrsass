@@ -56,24 +56,14 @@
 
 <script>
 import { validMobile } from '@/utils/validate'
-
+import { login } from '@/api/user'
 export default {
   name: 'Login',
   data() {
-    const validMobile = (rule, value, callback) => {
-      if (!validMobile(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
+    const validateMobile = (rule, value, callback) => {
+      validMobile(value)?callback():callback(new Error('手机号码格式不正确'));
     }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
+    
     return {
       loginForm: {
         mobile: '13800000002',
@@ -82,9 +72,12 @@ export default {
       loginRules: {
         mobile: [
           { required: true, trigger: 'blur',message:'请输入手机号码' },
-          {validator:validMobile,trigger:'blur'}
+          {validator:validateMobile,trigger: 'blur'}
         ],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [
+          { required: true, trigger: 'blur',message:'请输入密码'},
+          {min:6,max:16,message:'密码长度必须在6-16之间',trigger:'blur'}
+        ]
       },
       loading: false,
       passwordType: 'password',
@@ -110,21 +103,38 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
+    async handleLogin() {
+      this.$refs.loginForm.validate(vaild=>{
+        if(vaild){
+          let data = {
+            mobile: this.loginForm.mobile,
+            password: this.loginForm.password
+          }
+          const result = await login(data)
+          if(result.data.success){
+            this.$store.dispatch('user/login',result.data.data);
+          }
+          
+          
+        }else{
+          console.log('验证失败');
+          return false;
         }
       })
+      // this.$refs.loginForm.validate(valid => {
+      //   if (valid) {
+      //     this.loading = true
+      //     this.$store.dispatch('user/login', this.loginForm).then(() => {
+      //       this.$router.push({ path: this.redirect || '/' })
+      //       this.loading = false
+      //     }).catch(() => {
+      //       this.loading = false
+      //     })
+      //   } else {
+      //     console.log('error submit!!')
+      //     return false
+      //   }
+      // })
     }
   }
 }
@@ -148,6 +158,9 @@ $cursor: #fff;
 .login-container {
   background-image: url('~@/assets/common/login.jpg'); // 设置背景图片
   background-position: center; // 将图片位置设置为充满整个屏幕
+  display:flex;
+  justify-content:center;
+  align-items:center;
   .el-input {
     display: inline-block;
     height: 47px;

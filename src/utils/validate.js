@@ -20,6 +20,6 @@ export function validUsername(str) {
 }
 // 验证手机号码
 export function validMobile(str) {
-  const reg = /^1[3-9]\d{9}$/;
-  return reg.test(str)
+  const mobileReg = /^1[3-9]\d{9}$/;
+  return mobileReg.test(str)
 }
