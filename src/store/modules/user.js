@@ -13,7 +13,7 @@ const mutations = {
     setToken(token);
   },
   //清除token缓存
-  REMOVE_TOKEN(stata,token){
+  REMOVE_TOKEN(stata){
     state.token = null;
     removeToken()
   },
