@@ -58,6 +58,7 @@
 import { validMobile } from '@/utils/validate'
 import { login } from '@/api/user'
 import { mapActions } from 'vuex'
+import { setTimeStamp } from '@/utils/auth'
 export default {
   name: 'Login',
   data() {
@@ -111,6 +112,7 @@ export default {
           try{
             this.loading = true;
             const result = await login(this.loginForm)
+            setTimeStamp(Date.now());
             this['user/login'](result);
             //this.$store.dispatch('user/login',result);
             this.$router.push('/')
