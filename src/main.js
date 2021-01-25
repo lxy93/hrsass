@@ -11,9 +11,10 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-
+import * as directive from '@/directive'
 import '@/icons' // icon
 import '@/permission' // permission control
+
 
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
@@ -21,6 +22,12 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+
+//Object.keys(directive)转换成数组，es6的写法
+Object.keys(directive).forEach(item=>{
+  Vue.directive(item,directive[item])//注册自定义属性
+})
+
 
 new Vue({
   el: '#app',
