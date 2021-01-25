@@ -15,6 +15,8 @@ export function getUserInfo() {
   })
 }
 
-export function logout() {
-  
+export function getUserInfoById(id) {
+  return request({
+      url:'/sys/user/'+id
+  })
 }

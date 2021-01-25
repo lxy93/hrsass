@@ -1,6 +1,6 @@
 import router from '@/router'
 import store from '@/store'
-import { getUserInfo } from '@/api/user'
+import { getUserInfo,getUserInfoById} from '@/api/user'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -14,7 +14,11 @@ router.beforeEach(async (to,from,next)=>{
         }else{
             if(!store.getters.userInfo.userId){
                 const result = await getUserInfo();
-                store.dispatch('user/getUserInfo',result)
+                console.log(result.userId)
+                const baseInfo = await getUserInfoById(result.userId);
+                //两接口数据合并
+                const baseResult = {...result,...baseInfo};
+                store.dispatch('user/getUserInfo',baseResult)
             }
             next();
         }

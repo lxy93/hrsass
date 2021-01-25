@@ -21,7 +21,9 @@ service.interceptors.request.use(config=>{
 //响应拦截器
 service.interceptors.response.use(response=>{
     const {success,message,data} = response.data;
-    
+    console.log('请求借口返回开始')
+    console.log(response.data)
+    console.log('请求借口返回结束')
     if(success){
        return data; 
     }else{
