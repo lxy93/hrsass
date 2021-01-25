@@ -2,7 +2,8 @@ import {getToken,setToken,removeToken} from '@/utils/auth.js'
 
 //状态管理
 const state = {
-  token:getToken()//一进入页面时，先从缓存中获取token
+  token:getToken(),//一进入页面时，先从缓存中获取token
+  userInfo:{}
 }
 
 const mutations = {
@@ -15,12 +16,21 @@ const mutations = {
   REMOVE_TOKEN(stata,token){
     state.token = null;
     removeToken()
+  },
+  GET_USER_INFO(state,data){
+    state.userInfo = data;
+  },
+  CLEAR_USER_INFO(state){
+    state.userInfo = {};
   }
 }
 
 const actions = {
   login({commit},data){
     commit('SET_TOKEN',data)
+  },
+  getUserInfo({commit},data){
+    commit('GET_USER_INFO',data)
   }
 }
 

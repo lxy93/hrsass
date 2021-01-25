@@ -1,16 +1,21 @@
 import router from '@/router'
 import store from '@/store'
+import { getUserInfo } from '@/api/user'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 //路由前守卫
 const white = ['/login','/404'];
-router.beforeEach((to,from,next)=>{
+router.beforeEach(async (to,from,next)=>{
     Nprogress.start();//开启进度条
     if(store.getters.token){
         if(to.path=='/login'){
             next('/')
         }else{
+            if(!store.getters.userInfo.userId){
+                const result = await getUserInfo();
+                store.dispatch('user/getUserInfo',result)
+            }
             next();
         }
     }else{

@@ -8,8 +8,11 @@ export function login(data) {
     })
 }
 
-export function getInfo() {
-  
+export function getUserInfo() {
+  return request({
+      url:'/sys/profile',
+      method:'post'
+  })
 }
 
 export function logout() {
