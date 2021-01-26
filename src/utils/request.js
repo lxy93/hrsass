@@ -18,12 +18,12 @@ const service = axios.create({
 //请求拦截器
 service.interceptors.request.use(config=>{
     if(store.getters.token){
-        // if(isChecktTimeOut()){
-        //     store.commit('user/REMOVE_TOKEN');
-        //     store.commit('user/CLEAR_USER_INFO');
-        //     router.push('/login');
-        //     return Promise.reject(new Error('请求超时'))
-        // }
+        if(isChecktTimeOut()){
+            store.commit('user/REMOVE_TOKEN');
+            store.commit('user/CLEAR_USER_INFO');
+            router.push('/login');
+            return Promise.reject(new Error('请求超时'))
+        }
         config.headers['Authorization'] = `Bearer ${store.getters.token}`
     }
     return config
