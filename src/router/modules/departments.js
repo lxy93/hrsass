@@ -9,7 +9,8 @@ export default {
             path:'',
             component:()=>import('@/views/departments'),
             meta:{
-                title:'公司组织' 
+                title:'公司组织',
+                icon:'tree'
             }
         }
     ]
