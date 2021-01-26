@@ -5,6 +5,17 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import approvalsRouter from './modules/approvals'
+import attendancesRouter from './modules/attendances'
+import departmentsRouter from './modules/departments'
+import employeesRouter from './modules/employees'
+import permissionRouter from './modules/permission'
+import salarysRouter from './modules/salarys'
+import settingRouter from './modules/setting'
+import socialRouter from './modules/social'
+
+
+
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -30,6 +41,7 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+//定义 且 导出 静态路由，导出是因为以后写权限有用
 export const constantRoutes = [
   {
     path: '/login',
@@ -58,10 +70,17 @@ export const constantRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
+export const asyncRouter = [approvalsRouter,attendancesRouter,departmentsRouter,employeesRouter,
+  permissionRouter,salarysRouter,settingRouter,socialRouter]
+
+
+
+
+
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: [...constantRoutes,...asyncRouter]//静态路由与动态路由合并
 })
 
 const router = createRouter()
