@@ -113,5 +113,20 @@ export function param2Obj(url) {
       obj[name] = val
     }
   })
-  return obj
+  return obj 
+}
+
+
+export function tranListToTreeList(list,treeValue){//递归算法，一直都是自身调用自身，但是条件一定是不一样，否则死循环
+  let arr = [];
+  list.forEach(item=>{
+    if(item.pid == treeValue){
+      const children = tranListToTreeList(list,item.id);
+      if(children.length){
+        item.children = children;
+      }
+      arr.push(item)
+    }
+  })
+  return arr
 }

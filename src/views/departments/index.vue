@@ -15,41 +15,31 @@
 
 <script>
 import treeNode from './components/tree-tools.vue'
+import { getDepartments } from '@/api/departments'
+import { tranListToTreeList } from '@/utils'
 export default {
   components:{
     treeNode
   },
   data(){
     return {
-      departs: [
-        {
-          name: '总裁办',
-          manager:'曹操',
-          children: [
-            { 
-              name: '董事会',
-              manager:'曹丕'
-            }
-          ]
-        },
-        {
-          name: '行政部',
-          manager:'刘备'
-        },
-        { 
-          name: '人事部',
-          manager:'孙权'
-        }
-      ],
+      departs: [],
       defaultProps:{
         label:'name',
         children:'children'
       },
-      company:{
-        name:'xxx科技有限公司',
-        manager:'负责人'
-      }
+      company:{}
     }
+  },
+  methods:{
+    async getDepartments(){
+      const result = await getDepartments()
+      this.departs = tranListToTreeList(result.depts,'');
+      this.company = {name:result.companyName,manager:'负责人'}
+    }
+  },
+  mounted(){
+    this.getDepartments();
   }
 }
 </script>
