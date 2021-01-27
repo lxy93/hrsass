@@ -2,53 +2,11 @@
   <div class="dashboard-container">
     <div class="app-container">
       <el-card>
-        <el-row type="flex" justify="space-between" align="middle" style="height:40px;margin-bottom:30px;">
-          <el-col>
-            xxx科技有限公司
-          </el-col>
-          <el-col :span="4">
-            <el-row type="flex">
-              <el-col>负责人</el-col>
-              <el-col>
-                <el-dropdown>
-                  <span>
-                    操作
-                    <i class="el-icon-arrow-down"></i>
-                  </span>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>添加</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </el-col>
-            </el-row>
-          </el-col>
-        </el-row>
+        <tree-node :tree-node="company" :isroot="true"/>
 
         <!-- 树形结构开始 -->
         <el-tree :data="departs" :props="defaultProps" :default-expand-all="true">
-          <el-row slot-scope="{ data }" type="flex" justify="space-between" align="middle" style="height:40px;width:100%;">
-            <el-col>
-              {{data.name}}
-            </el-col>
-            <el-col :span="4">
-              <el-row type="flex">
-                <el-col>{{data.manager}}</el-col>
-                <el-col>
-                  <el-dropdown>
-                    <span>
-                      操作
-                      <i class="el-icon-arrow-down"></i>
-                    </span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>添加1</el-dropdown-item>
-                      <el-dropdown-item>添加2</el-dropdown-item>
-                      <el-dropdown-item>添加3</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </el-col>
-              </el-row>
-            </el-col>
-          </el-row>
+          <tree-node slot-scope="{ data }" :tree-node="data"/>
         </el-tree>
       </el-card>
     </div>
@@ -56,7 +14,11 @@
 </template>
 
 <script>
+import treeNode from './components/tree-tools.vue'
 export default {
+  components:{
+    treeNode
+  },
   data(){
     return {
       departs: [
@@ -82,6 +44,10 @@ export default {
       defaultProps:{
         label:'name',
         children:'children'
+      },
+      company:{
+        name:'xxx科技有限公司',
+        manager:'负责人'
       }
     }
   }
