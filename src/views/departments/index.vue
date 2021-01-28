@@ -10,16 +10,19 @@
         </el-tree>
       </el-card>
     </div>
+    <add-dept />
   </div>
 </template>
 
 <script>
 import treeNode from './components/tree-tools.vue'
+import addDept from './components/add-dept.vue'
 import { getDepartments } from '@/api/departments'
 import { tranListToTreeList } from '@/utils'
 export default {
   components:{
-    treeNode
+    treeNode,
+    addDept
   },
   data(){
     return {
