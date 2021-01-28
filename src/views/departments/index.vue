@@ -6,7 +6,7 @@
 
         <!-- 树形结构开始 -->
         <el-tree :data="departs" :props="defaultProps" :default-expand-all="true">
-          <tree-node slot-scope="{ data }" :tree-node="data"/>
+          <tree-node slot-scope="{ data }" :tree-node="data" @delDepartment="getDepartments"/>
         </el-tree>
       </el-card>
     </div>
