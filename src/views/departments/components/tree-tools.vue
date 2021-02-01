@@ -40,9 +40,10 @@ export default {
     methods:{
         operateDepts(type){
             if(type == 'add'){
-                
+                console.log(this.treeNode)
+                this.$emit('addDepts',this.treeNode)
             }else if(type == 'edit'){
-
+                this.$emit('editDepts',this.treeNode)
             }else if(type == 'del'){
                 this.$confirm('确定要删除该部门吗').then(()=>{
                     return delDepartments(this.treeNode.id)
