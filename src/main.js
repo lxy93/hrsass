@@ -7,7 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
-
+import Components from '@/components' //引入自定义组件
 import App from './App'
 import store from './store'
 import router from './router'
@@ -22,6 +22,7 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+Vue.use(Components) //注册自定义组件
 
 //Object.keys(directive)转换成数组，es6的写法
 Object.keys(directive).forEach(item=>{
