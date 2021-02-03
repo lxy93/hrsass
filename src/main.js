@@ -12,6 +12,7 @@ import App from './App'
 import store from './store'
 import router from './router'
 import * as directive from '@/directive'
+import * as filters from '@/filters'
 import '@/icons' // icon
 import '@/permission' // permission control
 
@@ -27,6 +28,10 @@ Vue.use(Components) //注册自定义组件
 //Object.keys(directive)转换成数组，es6的写法
 Object.keys(directive).forEach(item=>{
   Vue.directive(item,directive[item])//注册自定义属性
+})
+
+Object.keys(filters).forEach(key=>{
+  Vue.filter(key,filters[key])//注册自定义过滤器
 })
 
 

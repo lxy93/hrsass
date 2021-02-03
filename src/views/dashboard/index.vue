@@ -1,12 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
-    <page-tools :showBefore="true">
-      <template v-slot:before>
-        <span>提示</span>
-      </template>
-      <el-button type="primary" slot="after">导出exel</el-button>
-    </page-tools>
+    
   </div>
 </template>
 
