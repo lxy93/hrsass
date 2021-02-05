@@ -8,7 +8,7 @@
         <div slot="after">
           <el-button size="small" type="warning">导入</el-button>
           <el-button size="small" type="danger">导出</el-button>
-          <el-button size="small" type="primary">新增员工</el-button>
+          <el-button size="small" type="primary" @click="showDialog = true">新增员工</el-button>
         </div>
       </page-tools>
 
@@ -44,15 +44,19 @@
           <el-pagination @current-change="pageChange" :current-page="page.page" :page-size="page.size" layout="prev,pager,next" :total="page.total"></el-pagination>
         </el-row>
       </el-card>
-
     </div>
+    <add-employee :showDialog.sync="showDialog" @updateEmployee="updateEmployee"/>
   </div>
 </template>
 
 <script>
+import addEmployee from './components/add-employee.vue'
 import { getEmployeeList ,delEmployee} from '@/api/employees'
 import employeesEnum from '@/api/constant/employees'
 export default {
+  components:{
+    addEmployee
+  },
   data(){
     return {
       page:{
@@ -61,7 +65,8 @@ export default {
         total:0
       },
       list:[],
-      loading:false
+      loading:false,
+      showDialog:false
     }
   },
   methods:{
@@ -93,7 +98,10 @@ export default {
         console.log(error)
         // this.$message.warning(error);
       }
-      
+    },
+    updateEmployee(){
+      this.getEmployeeList();
+      this.showDialog = false;
     }
   },
   created(){
