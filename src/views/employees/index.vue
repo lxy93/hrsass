@@ -6,8 +6,8 @@
           <span>共{{page.total}}条记录</span>
         </template>
         <div slot="after">
-          <el-button size="small" type="warning">导入</el-button>
-          <el-button size="small" type="danger">导出</el-button>
+          <el-button size="small" type="warning" @click="$router.push('/import')">导入Excel</el-button>
+          <el-button size="small" type="danger">导出Excel</el-button>
           <el-button size="small" type="primary" @click="showDialog = true">新增员工</el-button>
         </div>
       </page-tools>
