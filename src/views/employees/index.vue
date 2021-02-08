@@ -16,6 +16,7 @@
         <el-table :data="list" border>
           <el-table-column label="序号" type="index" width="100px" align="center"></el-table-column>
           <el-table-column label="姓名" prop="username" align="center"></el-table-column>
+          <el-table-column label="手机号" prop="mobile" align="center"></el-table-column>
           <el-table-column  label="工号" prop="workNumber" align="center"></el-table-column>
           <el-table-column  label="聘用形式" prop="formOfEmployment" align="center" :formatter="employeeFormatter">
           </el-table-column>
@@ -31,7 +32,7 @@
           </el-table-column>
           <el-table-column  label="操作" align="center">
             <template slot-scope="{ row }">
-              <el-button type="text" size="small">查看</el-button>
+              <el-button type="text" size="small" @click="$router.push(`/employees/detail/${row.id}`)">查看</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
