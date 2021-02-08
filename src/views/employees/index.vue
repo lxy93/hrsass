@@ -7,7 +7,7 @@
         </template>
         <div slot="after">
           <el-button size="small" type="warning" @click="$router.push('/import')">导入Excel</el-button>
-          <el-button size="small" type="danger">导出Excel</el-button>
+          <el-button size="small" type="danger" @click="exportExcel">导出Excel</el-button>
           <el-button size="small" type="primary" @click="showDialog = true">新增员工</el-button>
         </div>
       </page-tools>
@@ -53,6 +53,7 @@
 import addEmployee from './components/add-employee.vue'
 import { getEmployeeList ,delEmployee} from '@/api/employees'
 import employeesEnum from '@/api/constant/employees'
+import { formatDate } from '@/filters'
 export default {
   components:{
     addEmployee
@@ -102,7 +103,46 @@ export default {
     updateEmployee(){
       this.getEmployeeList();
       this.showDialog = false;
+    },
+    exportExcel(){
+      const headers = {
+        '手机号': 'mobile',
+        '姓名': 'username',
+        '入职日期': 'timeOfEntry',
+        '聘用形式': 'formOfEmployment',
+        '转正日期': 'correctionTime',
+        '工号': 'workNumber',
+        '部门': 'departmentName'
+      }
+      import('@/vendor/Export2Excel').then(async excel=>{
+        const { rows } = await getEmployeeList({page:1,size:this.page.total})
+        const data = this.formatJson(headers,rows);
+        excel.export_json_to_excel({
+          header:Object.keys(headers),
+          data,
+          filename:'员工资料'
+        })
+        
+      })
+    },
+    formatJson(headers,rows){
+      return rows.map(item=>{
+          return Object.keys(headers).map(key=>{
+            if(headers[key]=='timeOfEntry' || headers[key]=='correctionTime'){
+              return formatDate(item[headers[key]])
+            }
+            if(headers[key] == 'formOfEmployment'){
+              const obj = employeesEnum.hireType.find(type=>{
+                
+                return type.id == item[headers[key]]
+              })
+              return obj?obj.value:'未知' 
+            }
+            return item[headers[key]]
+          })
+        })
     }
+
   },
   created(){
     this.getEmployeeList()
