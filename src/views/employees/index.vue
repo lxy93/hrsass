@@ -106,8 +106,8 @@ export default {
     },
     exportExcel(){
       const headers = {
-        '手机号': 'mobile',
         '姓名': 'username',
+        '手机号': 'mobile',
         '入职日期': 'timeOfEntry',
         '聘用形式': 'formOfEmployment',
         '转正日期': 'correctionTime',
@@ -117,10 +117,14 @@ export default {
       import('@/vendor/Export2Excel').then(async excel=>{
         const { rows } = await getEmployeeList({page:1,size:this.page.total})
         const data = this.formatJson(headers,rows);
+        const multiHeader = [['姓名','主要内容','','','','','部门']]//复杂表头
+        const merges = ['A1:A2','B1:F1','G1:G2']//合并区域
         excel.export_json_to_excel({
           header:Object.keys(headers),
           data,
-          filename:'员工资料'
+          filename:'员工资料',
+          multiHeader,//复杂表头
+          merges//合并单元格区域
         })
         
       })
