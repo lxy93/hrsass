@@ -4,7 +4,7 @@
       <el-card>
           <el-tabs>
               <el-tab-pane label="登陆账号设置">
-                  <el-form label-width="120px" style="margin-left:120px;margin-top:30px;">
+                  <el-form ref="formData" label-width="120px" style="margin-left:120px;margin-top:30px;">
                       <el-form-item label="姓名" prop="username">
                           <el-input type="text" v-model="formData.username" style="width:300px"/>
                       </el-form-item>
@@ -20,8 +20,13 @@
                       </el-form-item>
                   </el-form>
               </el-tab-pane>
-              <el-tab-pane label="个人详情"></el-tab-pane>
-              <el-tab-pane label="岗位信息"></el-tab-pane>
+              <el-tab-pane label="个人详情">
+                  <!-- 动态组件 可以动态切换不同的组件 :is里一定要是个变量-->
+                  <component :is="personDetail"/>
+              </el-tab-pane>
+              <el-tab-pane label="岗位信息">
+                  <component :is="jobDetail"/>
+              </el-tab-pane>
           </el-tabs>
       </el-card>
     </div>
@@ -31,10 +36,18 @@
 <script>
 import { getUserInfoById } from '@/api/user'
 import { saveUserDetailById } from '@/api/employees'
+import userInfo from './components/user-info.vue'
+import jobInfo from './components/job-info.vue'
 export default {
+    components:{
+        userInfo,
+        jobInfo
+    },
     data(){
         return{
             userId:this.$route.params.id,
+            personDetail:'user-info',
+            jobDetail:'job-info',
             formData:{
                 username:'',
                 password2:''
@@ -55,8 +68,13 @@ export default {
             this.formData = await getUserInfoById(this.userId)
         },
         async saveUserDetailById(){
-            await saveUserDetailById({...this.formData,password:this.formData.password2});
-            this.$message.success('用户信息设置成功')
+            try{
+                await this.$refs.formData.validate();
+                await saveUserDetailById({...this.formData,password:this.formData.password2});
+                this.$message.success('用户信息设置成功')
+            }catch(error){
+                console.log(error)
+            }
         }
 
     },
