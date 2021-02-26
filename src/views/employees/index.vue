@@ -18,7 +18,7 @@
           <el-table-column label="姓名" prop="username" align="center"></el-table-column>
           <el-table-column label="头像" prop="staffPhoto" align="center">
             <template slot-scope="{row}">
-              <img v-imagerror="require('@/assets/common/head.jpg')" :src="row.staffPhoto" style="border-radius: 50%; width: 100px; height: 100px; padding: 10px">
+              <img v-imagerror="require('@/assets/common/head.jpg')" :src="row.staffPhoto" @click="showQrcode(row.staffPhoto)" style="border-radius: 50%; width: 100px; height: 100px; padding: 10px">
             </template>
           </el-table-column>
           <el-table-column label="手机号" prop="mobile" align="center"></el-table-column>
@@ -52,6 +52,11 @@
       </el-card>
     </div>
     <add-employee :showDialog.sync="showDialog" @updateEmployee="updateEmployee"/>
+    <el-dialog :visible.sync="showImageQrcode" title="图片二维码">
+      <el-row type="flex" justify="center">
+        <canvas ref="qrcodeCanvas"></canvas>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -60,6 +65,7 @@ import addEmployee from './components/add-employee.vue'
 import { getEmployeeList ,delEmployee} from '@/api/employees'
 import employeesEnum from '@/api/constant/employees'
 import { formatDate } from '@/filters'
+import Qrcode from 'qrcode'
 export default {
   components:{
     addEmployee
@@ -73,7 +79,8 @@ export default {
       },
       list:[],
       loading:false,
-      showDialog:false
+      showDialog:false,
+      showImageQrcode:false
     }
   },
   methods:{
@@ -151,6 +158,16 @@ export default {
             return item[headers[key]]
           })
         })
+    },
+    showQrcode(url){
+      if(url){
+        this.showImageQrcode = true;
+        this.$nextTick(()=>{
+          Qrcode.toCanvas(this.$refs.qrcodeCanvas,url)
+        })
+      }else{
+        this.$message.warning('该用户还未上传图片')
+      }
     }
 
   },
