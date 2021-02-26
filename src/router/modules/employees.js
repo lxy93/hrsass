@@ -17,6 +17,15 @@ export default {
             path:'detail/:id?',
             component:()=>import('@/views/employees/detail'),
             hidden:true
+        },
+        {
+            path:'print/:id',
+            component:()=>import('@/views/employees/print'),
+            hidden:true,
+            meta:{
+                title:'打印',
+                icon: 'people'
+            }
         }
     ]
 }

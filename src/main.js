@@ -16,7 +16,8 @@ import * as directive from '@/directive'
 import * as filters from '@/filters'
 import '@/icons' // icon
 import '@/permission' // permission control
-
+import Print from 'vue-print-nb'
+Vue.use(Print)
 
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })

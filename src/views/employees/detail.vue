@@ -21,10 +21,24 @@
                   </el-form>
               </el-tab-pane>
               <el-tab-pane label="个人详情">
+                   <el-row type="flex" justify="end">
+                        <el-tooltip content="打印个人基本信息">
+                            <router-link :to="`/employees/print/${userId}?type=personal`">
+                            <i class="el-icon-printer" />
+                            </router-link>
+                        </el-tooltip>
+                    </el-row>
                   <!-- 动态组件 可以动态切换不同的组件 :is里一定要是个变量-->
                   <component :is="personDetail"/>
               </el-tab-pane>
               <el-tab-pane label="岗位信息">
+                    <el-row type="flex" justify="end">
+                        <el-tooltip content="打印岗位信息">
+                            <router-link :to="`/employees/print/${userId}?type=job`">
+                            <i class="el-icon-printer"  />
+                            </router-link>
+                        </el-tooltip>
+                    </el-row>
                   <component :is="jobDetail"/>
               </el-tab-pane>
           </el-tabs>
