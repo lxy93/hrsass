@@ -1,7 +1,8 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ userInfo.username }}</div>
-    <upload-excel></upload-excel>
+    <!-- <upload-excel></upload-excel> -->
+    <image-upload></image-upload>
   </div>
 </template>
 
