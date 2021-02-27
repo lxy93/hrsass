@@ -41,7 +41,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="roleEdit(row.id)">角色</el-button>
               <el-button type="text" size="small" @click="delEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -52,6 +52,8 @@
       </el-card>
     </div>
     <add-employee :showDialog.sync="showDialog" @updateEmployee="updateEmployee"/>
+    <assign-role ref="roleEdit" :roleShowDialog.sync="roleShowDialog" :userId="userId"/>
+
     <el-dialog :visible.sync="showImageQrcode" title="图片二维码">
       <el-row type="flex" justify="center">
         <canvas ref="qrcodeCanvas"></canvas>
@@ -62,13 +64,15 @@
 
 <script>
 import addEmployee from './components/add-employee.vue'
+import assignRole from './components/assign-role.vue'
 import { getEmployeeList ,delEmployee} from '@/api/employees'
 import employeesEnum from '@/api/constant/employees'
 import { formatDate } from '@/filters'
 import Qrcode from 'qrcode'
 export default {
   components:{
-    addEmployee
+    addEmployee,
+    assignRole
   },
   data(){
     return {
@@ -80,7 +84,9 @@ export default {
       list:[],
       loading:false,
       showDialog:false,
-      showImageQrcode:false
+      showImageQrcode:false,
+      roleShowDialog:false,
+      userId:null
     }
   },
   methods:{
@@ -168,6 +174,10 @@ export default {
       }else{
         this.$message.warning('该用户还未上传图片')
       }
+    },
+    roleEdit(id){
+      this.userId = id;
+      this.roleShowDialog = true;
     }
 
   },
