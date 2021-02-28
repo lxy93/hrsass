@@ -44,7 +44,7 @@ export default {
     props:{
         showDialog:{
             type:Boolean,
-            default:false
+            default:true
         }
     },
     data(){
