@@ -175,8 +175,9 @@ export default {
         this.$message.warning('该用户还未上传图片')
       }
     },
-    roleEdit(id){
+    async roleEdit(id){
       this.userId = id;
+      await this.$refs.roleEdit.getUserInfoById(id);
       this.roleShowDialog = true;
     }
 
