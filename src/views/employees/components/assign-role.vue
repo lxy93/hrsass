@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="角色配置" :visible.sync="roleShowDialog" @close="cancleBtn">
+    <el-dialog title="角色配置" :visible="roleShowDialog" @close="cancleBtn">
         <el-checkbox-group v-model="roleIds">
             <el-checkbox label="A" v-for="item in list" :key="item.id" :label="item.id">
                 {{item.name}}
