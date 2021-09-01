@@ -44,7 +44,7 @@ export function addRole(data){
 
 export function assignPerm(data){
     return request({
-        url:'/sys/role/assignPrem',
+        url:'/sys/role/assignPerm',
         method:'put',
         data
     })
