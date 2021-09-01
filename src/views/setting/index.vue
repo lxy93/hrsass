@@ -15,7 +15,7 @@
               <el-table-column align="center" prop="description" label="描述"></el-table-column>
               <el-table-column align="center" label="操作">
                 <template slot-scope="{row}">
-                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button size="small" type="success" @click="permiClick(row.id)">分配权限</el-button>
                   <el-button size="small" type="primary" @click="editRole(row.id)">编辑</el-button>
                   <el-button size="small" type="danger" @click="deleteRole(row.id)">删除</el-button>
                 </template>
@@ -52,16 +52,19 @@
       </el-card>
     </div>
     <add-set ref="addRole" :showTitle="showTitle" :showDailog.sync="showDailog" @updateRole="updateRole" />
+    <assign-perm ref="assignPerm" :permShowDialog.sync="permShowDialog"/>
   </div>
 </template>
 
 <script>
 import addSet from './components/add-set.vue'
+import assignPerm from './components/assign-permission.vue'
 import { getRoleList ,getCompanyInfo ,deleteRole } from '@/api/setting'
 import { mapGetters } from 'vuex'
 export default {
   components:{
-    addSet
+    addSet,
+    assignPerm
   },
   data(){
     return {
@@ -73,7 +76,8 @@ export default {
       list:[],
       formData:{},
       showDailog:false,
-      showTitle:''
+      showTitle:'',
+      permShowDialog:false
     }
   },
   computed:{
@@ -116,6 +120,10 @@ export default {
     addRole(){
       this.showDailog = true;
       this.showTitle = '新增角色'
+    },
+    permiClick(id){
+      this.$refs.assignPerm.assignPerm(id);
+      this.permShowDialog = true
     }
 
   },
